@@ -1,15 +1,17 @@
-local discordLink = "https://discord.gg/Gs2XpaRb24"
+local function fetchDailyKey()
     local url = "https://raw.githubusercontent.com/SilentIsPrivate/SilentHubKeys/main/daily_key.txt"
     local response = game:HttpGet(url)
     return response
 end
-
 
 local correctKey = fetchDailyKey()
 
 -- Create a ScreenGui
 local screenGui = Instance.new("ScreenGui")
 screenGui.Parent = game.CoreGui
+
+-- Rest of your script...
+
 
 -- Create a Frame
 local frame = Instance.new("Frame")

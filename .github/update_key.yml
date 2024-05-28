@@ -1,0 +1,31 @@
+name: Update Daily Key
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Runs daily at midnight UTC
+  workflow_dispatch:  # Allows manual triggering of the workflow
+
+jobs:
+  update-key:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Update key file
+      run: |
+        dateSeed=$(date +%j)$(date +%Y)
+        newKey="SilentHub_Key"
+        for i in {1..10}; do
+          newKey="$newKey$(($RANDOM % 10))"
+        done
+        echo "$newKey" > daily_key.txt
+
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add daily_key.txt
+        git commit -m "Update daily key"
+        git push

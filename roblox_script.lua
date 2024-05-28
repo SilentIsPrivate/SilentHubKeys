@@ -1,11 +1,9 @@
 local discordLink = "https://discord.gg/Gs2XpaRb24"
-
--- Function to fetch the daily key from GitHub
-local function fetchDailyKey()
-    local url = "https://raw.githubusercontent.com/SilentIsPrivate/SilentHubKeys/main/daily_key.txt"  -- Replace USERNAME with your GitHub username
+    local url = "https://raw.githubusercontent.com/SilentIsPrivate/SilentHubKeys/main/daily_key.txt"
     local response = game:HttpGet(url)
     return response
 end
+
 
 local correctKey = fetchDailyKey()
 

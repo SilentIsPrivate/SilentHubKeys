@@ -1,31 +1,21 @@
-name: Update Daily Key
+name: Update Key
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # Runs daily at midnight UTC
-  workflow_dispatch:  # Allows manual triggering of the workflow
+    - cron: '0 0 * * *'  # Runs every day at midnight UTC
 
 jobs:
-  update-key:
+  update_key:
     runs-on: ubuntu-latest
-
+    
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-
-    - name: Update key file
-      run: |
-        dateSeed=$(date +%j)$(date +%Y)
-        newKey="SilentHub_Key"
-        for i in {1..10}; do
-          newKey="$newKey$(($RANDOM % 10))"
-        done
-        echo "$newKey" > daily_key.txt
-
-    - name: Commit and push changes
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add daily_key.txt
-        git commit -m "Update daily key"
-        git push
+      - name: Fetch daily key
+        id: fetch_key
+        run: |
+          key=$(curl -sSL "https://raw.githubusercontent.com/SilentIsPrivate/SilentHubKeys/main/daily_key.txt")
+          echo "::set-output name=key::$key"
+      
+      - name: Use the key in your script
+        run: |
+          # Replace this command with the one to use the key in your script
+          echo "Fetched key: ${{ steps.fetch_key.outputs.key }}"
